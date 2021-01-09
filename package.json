@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "aaaamain": "npx tsc && node yangyangdist/main.js"
+    "aaaamain": "npx tsc && node yangyangdist/main.js",
+    "tic_tac_toe": "npx tsc && node yangyangdist/tic.js"
   },
   "author": "",
   "license": "ISC",
