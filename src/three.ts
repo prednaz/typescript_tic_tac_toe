@@ -1,5 +1,5 @@
 export type Index = "first" | "second" | "third";
-export type Three<T> = {readonly [key in Index]: T};
+export type Three<T> = {[key in Index]: T};
 export const indexes: Three<Index> =
   {
     first: "first",

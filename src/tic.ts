@@ -4,15 +4,17 @@ import * as R from "ramda";
 
 export type Piece = "x" | "o";
 export type Board = Three<Three<Piece | null>>;
-export type State = {readonly board: Board, readonly turn: Piece};
-export type Coordinate = readonly [three.Index, three.Index];
+export type State = {board: Board, turn: Piece};
+export type Coordinate = [three.Index, three.Index];
 export type Event = Coordinate;
 
 export const update =
   (state: State, event: Event): State =>
     {
-      const result: State =
-        R.set(R.lensPath(["board", event[0], event[1]]), "x", state);
+      const result: State = R.clone(state);
+      result.board[event[0]][event[1]] = result.turn;
+      result.turn =
+        result.turn === "x" ? "o" : "x";
       console.log("x: " + check_piece("x", result.board));
       console.log("o: " + check_piece("o", result.board));
       return result;
