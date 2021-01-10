@@ -1,5 +1,5 @@
 node_modules/
-/yangyangdist/
+/lib/
 .DS_Store
 /.cache/
 /dist/

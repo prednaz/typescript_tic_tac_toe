@@ -1,14 +1,14 @@
 {
-  "name": "typescript_test",
+  "name": "typescript_tic_tac_toe",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "tic_tac_toe": "tsc && concurrently 'npm:typescript_watch' 'npm:parcel_watch' 'npm:server_watch'",
-    "test": "tsc && node yangyangdist/test.js",
-    "clear": "rm -r yangyangdist dist",
+    "develop": "tsc && concurrently 'npm:typescript_watch' 'npm:parcel_watch' 'npm:server_watch'",
+    "clear": "rm -r lib dist",
+    "build": "tsc && parcel build src/index.html",
     "typescript_watch": "tsc --watch",
-    "parcel_watch": "parcel watch src/tic_tac_toe/index.html",
+    "parcel_watch": "parcel watch src/index.html",
     "server_watch": "http-server dist"
   },
   "author": "",

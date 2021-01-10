@@ -6,7 +6,7 @@
 
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "outDir": "yangyangdist",
+    "outDir": "lib",
     "skipLibCheck": true,
     "sourceMap": true
   },
