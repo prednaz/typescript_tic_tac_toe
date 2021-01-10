@@ -1,4 +1,4 @@
-import * as tic from "./index";
+import * as tic from "./game";
 import * as three from "./three";
 import * as R from "ramda";
 
