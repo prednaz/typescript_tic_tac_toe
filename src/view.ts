@@ -1,47 +1,55 @@
-import * as three from "./three.js";
+import * as tic from "./tic";
+import * as three from "./three";
 import * as R from "ramda";
-import * as map_value_indexed from "./map_value_indexed.js"
-import * as tic from "./tic.js";
 
 const indexes: ReadonlyArray<three.Index> = ["first", "second", "third"];
-const coordinates: ReadonlyArray<tic.Event> =
+const coordinates: ReadonlyArray<tic.Coordinate> =
   R.liftN
   (
     2,
-    R.constructN(2, tic.Event)
+    R.pair
   )
   (
     indexes,
     indexes
   );
-const field_list = Array.from(document.querySelectorAll(".field"));
-const field_map =
-  map_value_indexed.fromList(
-    R.zip(
-      coordinates,
-      field_list
-    )
+const fields: ReadonlyArray<[tic.Coordinate, Element]> =
+  R.zip(
+    coordinates,
+    Array.from(document.querySelectorAll(".field"))
   );
-let state = tic.state_initial;
-map_value_indexed.forEachIndexed(
-  ([coordinate, field]): void =>
+
+const view =
+  (state: tic.State): void =>
+    {
+      R.forEach(
+        ([coordinate, field]: [tic.Coordinate, Element]): void =>
+          {
+            if (field.firstChild === null) {
+              throw new Error("All fields contain a paragraph.")
+            }
+            const piece = state.board[coordinate[0]][coordinate[1]];
+            field.firstChild.textContent =
+              piece === null
+                ? ""
+                : piece.toUpperCase();
+          },
+        fields
+      );
+    };
+
+let state: tic.State = tic.state_initial;
+view(state);
+R.forEach(
+  ([coordinate, field]: [tic.Coordinate, Element]): void =>
     {
       field.addEventListener(
         "click",
         () => {
-          state = tic.udpate(state, coordinate);
-          R.forEach(
-            ([coordinate, piece]: [tic.Event, Piece]): void => {field.innerHTML = map_value_indexed.lookup(coordinate, )}
-            , R.unnest(R.mapObjIndexed(
-            (row: three.Three<tic.Piece>, row_index: three.Index): ReadonlyArray<readonly [tic.Event, Piece] =>
-              R.mapObjIndexed(
-                (piece: Piece, column_index: three.Index): readonly [tic.Event, Piece] => [new Event(column_index, row_index), piece],
-                row
-              ),
-            state.board
-          )))
+          state = tic.update(state, coordinate);
+          view(state);
         }
       );
     },
-  field_map
+  fields
 );

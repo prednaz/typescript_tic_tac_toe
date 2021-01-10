@@ -1,9 +1,33 @@
 import {Three} from "./three";
 import * as three from "./three";
+import * as R from "ramda";
 
-type Piece = "x" | "o";
+export type Piece = "x" | "o";
+export type Board = Three<Three<Piece | null>>;
+export type State = {readonly board: Board, readonly turn: Piece};
+export type Coordinate = readonly [three.Index, three.Index];
+export type Event = Coordinate;
 
-type Board = Three<Three<Piece>>;
+export const update =
+  (state: State, event: Event): State =>
+    {
+      const result: State =
+        R.set(R.lensPath(["board", event[0], event[1]]), "x", state);
+      console.log("x: " + check_piece("x", result.board));
+      console.log("o: " + check_piece("o", result.board));
+      return result;
+    };
+
+export const state_initial: State =
+  {
+    turn: "x",
+    board:
+      {
+        first:  {first: null, second: null, third: null},
+        second: {first: null, second: null, third: null},
+        third:  {first: null, second: null, third: null},
+      },
+  };
 
 const board_example: Board =
   {
@@ -13,19 +37,17 @@ const board_example: Board =
   };
 
 const check_piece =
-  (board: Board, piece: Piece): boolean =>
-  check_rows(board, piece); // || check_columns(board, piece) || check_diagonals;
+  (piece: Piece, board: Board): boolean =>
+  check_rows(piece, board); // || check_columns(board, piece) || check_diagonals;
 
 const check_rows =
-  (board: Board, piece: Piece): boolean =>
+  (piece: Piece, board: Board): boolean =>
   three.any(
     (a: boolean): boolean => a,
-    three.map(
-      row_current => check_row(board, piece, row_current),
-      three.indexes
-    )
+    three.map(check_row(piece), board)
   );
 
 const check_row =
-  (board: Board, piece: Piece, row: three.Index) =>
-  three.all(piece_current => piece_current === piece, board[row]);
+  (piece: Piece) =>
+  (row: Three<Piece | null>) =>
+  three.all(piece_current => piece_current === piece, row);
