@@ -1,4 +1,4 @@
-import * as tic from "./tic";
+import * as tic from "./index";
 import * as three from "./three";
 import * as R from "ramda";
 
@@ -19,14 +19,19 @@ const fields: ReadonlyArray<[tic.Coordinate, Element]> =
     Array.from(document.querySelectorAll(".field"))
   );
 
+const message_box: Element | null = document.querySelector("#message");
+if (message_box === null) {
+  throw new Error("Where is #message?")
+}
 const view =
   (state: tic.State): void =>
     {
+      message_box.textContent = state.message;
       R.forEach(
         ([coordinate, field]: [tic.Coordinate, Element]): void =>
           {
             if (field.firstChild === null) {
-              throw new Error("All fields contain a paragraph.")
+              throw new Error("All fields must contain a paragraph.")
             }
             const piece = state.board[coordinate[0]][coordinate[1]];
             field.firstChild.textContent =

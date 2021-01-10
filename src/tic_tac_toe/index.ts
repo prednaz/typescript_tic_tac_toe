@@ -4,7 +4,7 @@ import * as R from "ramda";
 
 export type Piece = "x" | "o";
 export type Board = Three<Three<Piece | null>>;
-export type State = {board: Board, turn: Piece};
+export type State = {board: Board, turn: Piece, message: string};
 export type Coordinate = [three.Index, three.Index];
 export type Event = Coordinate;
 
@@ -15,14 +15,16 @@ export const update =
       result.board[event[0]][event[1]] = result.turn;
       result.turn =
         result.turn === "x" ? "o" : "x";
-      console.log("x: " + check_piece("x", result.board));
-      console.log("o: " + check_piece("o", result.board));
+      result.message =
+        "x: " + check_piece("x", result.board) + ", " +
+        "o: " + check_piece("o", result.board);
       return result;
     };
 
 export const state_initial: State =
   {
     turn: "x",
+    message: "Enjoy the game.",
     board:
       {
         first:  {first: null, second: null, third: null},

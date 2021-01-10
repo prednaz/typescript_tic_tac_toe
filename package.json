@@ -8,7 +8,7 @@
     "test": "tsc && node yangyangdist/test.js",
     "clear": "rm -r yangyangdist dist",
     "typescript_watch": "tsc --watch",
-    "parcel_watch": "parcel watch tic.html",
+    "parcel_watch": "parcel watch src/tic_tac_toe/index.html",
     "server_watch": "http-server dist"
   },
   "author": "",
