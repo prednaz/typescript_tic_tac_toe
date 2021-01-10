@@ -4,14 +4,24 @@ import * as R from "ramda";
 
 export type Piece = "x" | "o";
 export type Board = Three<Three<Piece | null>>;
-export type State = {board: Board, turn: Piece, message: string};
+export type State =
+  {
+    board: Board,
+    turn: Piece,
+    message: string,
+  };
 export type Coordinate = [three.Index, three.Index];
 export type Event = Coordinate;
 
+// Update the game state on events triggered by the player
+// returning the resulting new game state.
+// So far, the only supported events are clicks on the board
+// encoded via a tuple `[row, column]`.
 export const update =
   (state: State, event: Event): State =>
     {
       const result: State = R.clone(state);
+
       result.board[event[0]][event[1]] = result.turn;
       result.turn =
         result.turn === "x" ? "o" : "x";
@@ -40,9 +50,11 @@ const board_example: Board =
     third:  {first: "x", second: "o", third: "x"},
   };
 
+// Check if the piece passed as the first argument has won.
+// Incomplete.
 const check_piece =
   (piece: Piece, board: Board): boolean =>
-  check_rows(piece, board); // || check_columns(board, piece) || check_diagonals;
+  check_rows(piece, board) || check_columns(piece, board); // || check_diagonals(piece, board);
 
 const check_rows =
   (piece: Piece, board: Board): boolean =>
@@ -55,3 +67,7 @@ const check_row =
   (piece: Piece) =>
   (row: Three<Piece | null>) =>
   three.all(piece_current => piece_current === piece, row);
+
+const check_columns =
+  (piece: Piece, board: Board): boolean =>
+  check_rows(piece, three.transpose(board));
