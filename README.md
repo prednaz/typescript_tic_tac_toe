@@ -1,3 +1,9 @@
+# GUI Tic Tac Toe project skeleton
+
+GUI Tic Tac Toe project skeleton that beginners new to the web technologies can extend to get to know TypeScript without worrying about the tooling nor the web technologies
+
+## Develop
+
 1. Execute `npm install` once after downloading the project.
 2. Run the npm script `develop`. [Here](vs_code_npm_script.png) is a screenshot
    of where to click in Visual Studio Code in order to do so.
