@@ -1,6 +1,6 @@
-# GUI Tic Tac Toe project skeleton
+# gui tic tac toe project skeleton
 
-GUI Tic Tac Toe project skeleton that beginners new to the web technologies can extend to get to know TypeScript without worrying about the tooling nor the web technologies
+gui tic tac toe project skeleton that beginners new to the web technologies can extend to get to know typescript without worrying about the tooling nor the web technologies
 
 ## Develop
 
